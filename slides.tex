@@ -1,0 +1,629 @@
+\documentclass[a4j,disablejfam,dvipdfmx,papersize,slide,uplatex,21pt]{jsarticle}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{parskip}
+\usepackage{ascmac}
+\usepackage{amsmath,amssymb}
+\usepackage{amsthm}
+    \makeatletter
+    \renewenvironment{proof}[1][\proofname]{\par
+        \pushQED{\qed}
+        \normalfont
+        \topsep6\p@\@plus6\p@ \trivlist
+        \item[\hskip\labelsep{\bfseries #1}\@addpunct{\bfseries}]\ignorespaces
+    }{%
+        \popQED\endtrivlist\@endpefalse
+    }
+    \renewcommand{\proofname}{証明.}
+    \makeatother
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+    \renewcommand{\headrulewidth}{0.0pt}
+    \pagestyle{fancy}
+    \lhead{}
+    \chead{}
+    \rhead{}
+    \lfoot{}
+    \cfoot{}
+    \rfoot{\thepage{}/{}\pageref{LastPage}}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage[utf8]{inputenc}
+\usepackage{bm}
+
+\begin{document}
+
+\title{「小林昭七 曲線と曲面の微分幾何」を読む\\
+2021年4月16日}
+\author{八幡 圭嗣}
+\date{}
+\maketitle
+
+\section*{目次}
+\begin{enumerate}
+    \item 曲線の概念
+    \item 曲線のパラメータ表示
+    \item 曲率の導入
+    \item 曲率の意味
+    \item Gaussの表示
+    \item 曲率による曲線の特徴付け
+    \item 一般のパラメータによる曲率の表式
+\end{enumerate}
+
+
+
+\section{曲線の概念}
+ここでは主にパラメータによる表示$\bm{p} = \bm{p}(t)$を用いて曲線を扱うので、
+まず$\bm{p}(t)$に関する仮定を整理しておく。
+また、本書は曲線という概念そのものの定義には深入りしていないが、
+参考情報として曲線の定義に関するいくつかの立場にも触れておく。
+
+\newpage
+\subsection*{曲線$\bm{p}(t)$に仮定すること}
+\begin{itemize}
+    \item $\bm{p}(t)$の定義域は閉区間とする。
+    \item $\bm{p}(t)$は2,3回微分可能とする（今回は2回で十分）。
+    \item 特に断らない限り、$\bm{p}(t)$は必ずしも1対1ではない。
+    \item 特に断らない限り、$\bm{p}(t)$は停留点を持ちうる。
+\end{itemize}
+
+\vspace{1em}
+※より一般の多様体を扱う場合は定義域を開集合に限定したり、単射性を仮定したり、
+逆関数の連続性を仮定したり、停留点を持たないと仮定したりする場合がある。
+
+\newpage
+\subsection*{参考：曲線の定義}
+「$y=x^2$のグラフが曲線」とか「$F(x,y)=0$により定まる曲線」とかいうとき、暗に点集合を指して曲線と呼んでいるものと考えられる。
+
+一方、連続関数$\bm{p}(t) = (x(t), y(t))$自体を\textbf{（パラメータ付）曲線}と呼ぶ立場もあり、
+この立場では$t$の増加する向きによって曲線に自然な向きが定まる。
+
+\newpage
+\subsection*{参考：2つの曲線が同じであるとは}
+2つのパラメータ付曲線$\bm{p}(t), \bm{q}(u)$に対し、次のように同値関係を定義できる:
+\begin{center}
+    ある狭義単調連続関数$\varphi$が存在して$\bm{p} = \bm{q} \circ \varphi$であるとき、\\
+    $\bm{p}, \bm{q}$は同値であるという
+\end{center}
+この同値関係により定まる同値類を曲線と呼び、曲線$C$の元を$C$のパラメータ表示と呼ぶ、という立場がある。
+このとき曲線の軌跡、始点、終点、弧長はパラメータ表示のとり方によらない。
+
+\newpage
+\subsection*{留意}
+※本書では「点集合としての曲線」「パラメータ付曲線」「パラメータ付曲線の同値類としての曲線」などを明確には区別していないため、
+曲線という語の意味は文脈によって判断するしかないが、これらの立場を踏まえておくといくぶんか混乱が減る（かもしれない）。
+本スライドでも以後これらの概念を区別せず用いる。
+
+
+
+
+\section{曲線のパラメータ表示}
+一般のパラメータ$t$によるパラメータ表示と、その特別な場合としての弧長$s$によるパラメータ表示について述べる。
+
+\newpage
+\subsection*{一般のパラメータ}
+$\bm{p}(t)$を微分したものを
+\begin{equation}
+    \dot{\bm{p}}(t) = (\dot{x}(t), \dot{y}(t)),\quad
+    \ddot{\bm{p}}(t) = (\ddot{x}(t), \ddot{y}(t))
+\end{equation}
+などと表す。
+仮に$t$を時間とみなせば、物理的意味は
+\begin{itemize}
+    \item 位置ベクトル: $\bm{p}(t)$
+    \item 速度ベクトル: $\bm{\dot{p}}(t)$
+    \item 速さ: $|\dot{\bm{p}}(t)| = \sqrt{\dot{x}^2 + \dot{y}^2}$
+    \item 加速度ベクトル: $\bm{\ddot{p}}(t)$
+\end{itemize}
+といえる。
+
+\newpage
+\subsection*{弧長}
+曲線$\bm{p}(t)\,(0 \le t \le b)$の長さ（弧長）は
+\begin{equation}
+    \int_0^b |\dot{\bm{p}}(t)| dt
+\end{equation}
+である。曲線の終点を変数$t$とおけば、パラメータが$0$から$t$まで動くときの弧長は
+\begin{equation}
+    s(t) = \int_0^t |\dot{\bm{p}}(t)| dt
+\end{equation}
+である。両辺を微分して
+\begin{equation}
+    \dot{s}(t) = |\dot{\bm{p}}(t)|
+\end{equation}
+を得る。
+
+\newpage
+\subsection*{弧長によるパラメータ表示}
+とくに$\bm{p}(t)$が停留点を持たない場合、すなわち$\forall t$に対し$\dot{\bm{p}}(t) \neq 0$ならば...
+
+$\phantom{\therefore}$ $\dot{s}(t) = |\dot{\bm{p}}(t)| > 0$
+
+$\therefore$ $s(t)$は狭義単調増加連続関数
+
+$\therefore$ $t = t(s)$と表せて、$t(s)$も狭義単調連続関数
+
+\vspace{1em}
+
+したがって、$\bm{p}(t)$が表す曲線は弧長によるパラメータ表示$\bm{p}(s)$も可能である。
+弧長をパラメータにとったときの導関数は
+\begin{equation}
+    \bm{p}'(s) = (x'(s), y'(s))
+\end{equation}
+と表す。
+
+
+
+\section{曲率の導入}
+前頁で述べた弧長によるパラメータ表示$\bm{p}(s)$は、曲線に対して唯一つに定まる。
+そこで次に$\bm{p}(s)$を用いて接ベクトル・法ベクトルを定義し、それらより曲率を定義する。
+
+\newpage
+\subsection*{接ベクトル$\bm{e}_1$}
+ベクトル（値関数）$\bm{e}_1(s)$を
+\begin{equation}
+    \bm{e}_1(s) = \bm{p}'(s)
+\end{equation}
+と定義する。
+$\bm{e}_1(s_0)$は曲線$\bm{p}(s)$の点$\bm{p}(s_0)$における接ベクトルであり、単位ベクトルでもある。
+
+\newpage
+\subsection*{法ベクトル$\bm{e}_2$}
+ベクトル$\bm{e}_2(s)$を
+\begin{center}
+    各点で$\bm{e}_1(s)$に直交する単位ベクトルであって$\bm{e}_1$の左側にあるもの
+\end{center}
+と定義する。すなわち、回転行列を用いて表せば
+\begin{equation}
+    \bm{e}_2(s) = \bm{e}_1(s)
+    \left[
+    \begin{array}{cc}
+        0 & 1 \\
+        -1 & 0
+    \end{array}
+    \right]
+\end{equation}
+である（ここに登場するベクトルは横ベクトルであることに注意）。
+$\bm{e}_2(s_0)$は曲線$\bm{p}(s)$の点$\bm{p}(s_0)$における法ベクトルであり、単位ベクトルでもある。
+
+\newpage
+\subsection*{曲率}
+$\bm{e}_1, \bm{e}_2$の関係を整理すると
+\begin{alignat}{1}
+    \bm{e}_1 \cdot \bm{e}_1 &= 1 \\
+    \bm{e}_2 \cdot \bm{e}_2 &= 1 \\
+    \bm{e}_1 \cdot \bm{e}_2 &= 0
+\end{alignat}
+である。各点において$\bm{e}_1, \bm{e}_2$が正規直交基底をなすことに注意すれば、
+ある実数値関数$\kappa(s)$が唯一つ存在して
+\begin{equation}
+    \bm{e}'_1 = \kappa \bm{e}_2,\quad
+    \bm{e}'_2 = - \kappa \bm{e}_1
+\end{equation}
+すなわち
+\begin{equation}
+    \left[
+        \begin{array}{c}
+            \bm{e}'_1 \\
+            \bm{e}'_2
+        \end{array}
+    \right]
+    =
+    \left[
+        \begin{array}{cc}
+            0 & \kappa \\
+            -\kappa & 0
+        \end{array}
+    \right]
+    \left[
+        \begin{array}{c}
+            \bm{e}_1 \\
+            \bm{e}_2
+        \end{array}
+    \right]
+\end{equation}
+である。この$\kappa(s)$を曲線$\bm{p}(s)$の曲率(curvature)という。
+
+
+
+\section{曲率の意味}
+前頁で定義された曲率は、その名の通り「曲がり具合」を表しているであろうか？
+ここでいくつかの具体例に触れながら曲率の意味を考察する。
+
+\newpage
+\subsection*{例2.1. 円の曲率}
+パラメータ表示
+\begin{equation}
+    \bm{p}(t) = (r \cos t, r \sin t)
+\end{equation}
+で表される半径$r (> 0)$の円を考える。弧長は
+\begin{alignat}{1}
+    s(t) &= \int_0^t |\bm{p}'(t)| dt \\
+        &= \int_0^t r dt \\
+        &= rt
+\end{alignat}
+なので、$t = t(s) = \dfrac{s}{r}$と表せて、この円の弧長によるパラメータ表示は
+\begin{equation}
+    \bm{p}(s) = \left(r \cos \frac{s}{r}, r \sin \frac{s}{r}\right)
+\end{equation}
+となる。
+
+\newpage
+弧長によるパラメータ表示
+\begin{equation}
+    \bm{p}(s) = \left(r \cos \frac{s}{r}, r \sin \frac{s}{r}\right)
+\end{equation}
+から
+\begin{alignat}{4}
+    \bm{e}_1(s) &=  \bigl(&- &\sin \frac{s}{r},& &\cos \frac{s}{r} &&\bigr) \\
+    \bm{e}_2(s) &=  \bigl(&- &\cos \frac{s}{r},& -&\sin \frac{s}{r} &&\bigr) \\
+    \bm{e}'_1(s) &= \bigl(&- \frac{1}{r} &\cos \frac{s}{r},& - \frac{1}{r} &\sin \frac{s}{r} &&\bigr) \\
+    \bm{e}'_2(s) &= \bigl(&\frac{1}{r} &\sin \frac{s}{r},& - \frac{1}{r} &\cos \frac{s}{r} &&\bigr)
+\end{alignat}
+を得る。したがって
+\begin{equation}
+    \bm{e}'_1 = \frac{1}{r} \bm{e}_2,\quad
+    \bm{e}'_2 = -\frac{1}{r} \bm{e}_1
+\end{equation}
+ゆえに半径$r$の円の曲率は$\kappa = \dfrac{1}{r}$（定数）である。
+
+\newpage
+\subsection*{定理2.1. 直線の曲率}
+\begin{itembox}[l]{定理2.1}
+    曲線$\bm{p}(s)$の曲率$\kappa(s)$について
+    \begin{equation}
+        \kappa = 0 \quad \Longleftrightarrow \quad \text{$\bm{p}(s)$が直線}
+    \end{equation}
+\end{itembox}
+
+\begin{proof}
+    「$\Rightarrow$」について
+
+    $\kappa = 0$と仮定すると、$\bm{e}'_1 = \kappa \bm{e}_2 = \bm{0}$なので、
+    各成分を$s$に関して積分すれば
+    \begin{equation}
+        \bm{e}_1 = \bm{p}' = (\alpha, \beta) \quad \text{（$\alpha, \beta$は定数）}
+    \end{equation}
+    よって
+    \begin{equation}
+        \bm{p} = (\alpha, \beta) s + (a, b) \quad \text{（$a, b$は定数）}
+    \end{equation}
+    と表せる。すなわち$\bm{p}(s)$は直線を表す。
+
+    \newpage
+
+    「$\kappa = 0 \Leftarrow \text{$\bm{p}(s)$が直線}$」について
+
+    $\bm{p}(s)$が直線であると仮定する。すなわち、定数$\alpha, \beta, a, b, (\alpha, \beta) \neq (0, 0)$を用いて
+    \begin{alignat}{1}
+        \bm{p} = (\alpha, \beta) s + (a, b)
+    \end{alignat}
+    と表せると仮定する。このとき$\bm{e}_1 = \bm{p}' = (\alpha, \beta)$より
+    $\bm{e}'_1 = (0, 0), \bm{e}_2 = (-\beta, \alpha)$である。
+    したがって、曲率の定義式$\bm{e}'_1 = \kappa \bm{e}_2$から
+    $\kappa = 0$が従う。
+\end{proof}
+
+\newpage
+\subsection*{2次近似}
+曲線$\bm{p}(s)$の点$s_0$における2次近似は
+\begin{equation}
+    \bm{p}(s_0) + \bm{p}'(s_0) (s - s_0) + \frac{1}{2} \bm{p}''(s_0) (s - s_0)^2
+\end{equation}
+すなわち
+\begin{equation}
+    \bm{p}(s_0) + \bm{e}_1(s_0) (s - s_0) + \frac{1}{2} \kappa(s_0) \bm{e}_2(s_0) (s - s_0)^2
+\end{equation}
+である。
+
+\newpage
+\subsection*{2次近似の例}
+点$(0, 1)$を中心とする半径$1$の正の向きの円のパラメータ表示
+\begin{equation}
+    \bm{p}(t) = \left(\sin t, 1 - \cos t\right)
+\end{equation}
+の、原点における2次近似を考える。
+例2.1（円の曲率）と同様に$\bm{e}_1, \bm{e}_2, \kappa$を求めると
+\begin{equation}
+    \bm{e}_1(0) = (1, 0),\quad
+    \bm{e}_2(0) = (0, 1),\quad
+    \kappa(0) = 1
+\end{equation}
+である。したがって、求める2次近似は
+\begin{alignat}{1}
+      &\bm{p}(0) + \bm{e}_1(0) s + \frac{1}{2} \kappa(0) \bm{e}_2(0) s^2 \\
+    = &(0, 0) + (1, 0) s + \frac{1}{2} (0, 1) s^2 \\
+    = &\left(s, \frac{1}{2} s^2\right)
+\end{alignat}
+である。
+
+
+
+
+\section{Gaussの表示}
+曲率の意味を説明するもうひとつの方法として、つぎにGaussの表示を考える。
+
+\newpage
+\subsection*{Gaussの表示}
+ここでは曲線$\bm{p}(s)$は1対1写像であるとして考える。
+このとき、各点$\bm{p}(s_0)$に対してベクトル$\bm{e}_2(s_0)$が唯一つ定まり、
+さらに$\bm{e}_2(s_0)$を位置ベクトルとみたときに$\bm{e}_2(s_0)$が表す単位円上の点が
+唯一つ定まる。この単位円上の点を同じ記号で$\bm{e}_2(s_0)$と表すことにする。
+
+点$\bm{p}(s)$を点$\bm{e}_2(s)$に写す対応をGaussの表示(Gauss map; ガウス写像とも)と呼び、
+$g$で表す。
+
+\newpage
+// Gaussの表示について書く
+
+
+
+
+\section{曲率による曲線の特徴付け}
+ここまで、曲線に対して定まる曲率について具体例を交えて考察を進めてきた。
+それでは逆に、曲率から曲線を定めることはできるであろうか？
+その特別な場合として、$\kappa = 0$ならば$\bm{p}(s)$が直線であることは既に確認した。
+ここではより一般の曲線に対して考察を広げる。
+
+\newpage
+\subsection*{$\kappa$が一定の場合}
+曲線$\bm{p}(s)$の曲率を$\kappa(s)$とおく。
+$\kappa$が$0$でない定数の場合を考える。
+まず、点$\bm{p} + \dfrac{1}{\kappa} \bm{e}_2$は定点である。実際
+\begin{equation}
+    \frac{d}{ds} \left( \bm{p} + \dfrac{1}{\kappa} \bm{e}_2 \right)
+    = \bm{e}_1 + \frac{1}{\kappa} (- \kappa \bm{e}_1)
+    = \bm{0}
+\end{equation}
+である。この定点から点$\bm{p}(s)$へのベクトルは
+\begin{equation}
+    \bm{p} - \left( \bm{p} + \dfrac{1}{\kappa} \bm{e}_2 \right)
+    = - \frac{1}{\kappa} \bm{e}_2
+\end{equation}
+なので、曲線$\bm{p}(s)$は半径$\dfrac{1}{|\kappa|}$の円を表し、
+$\kappa > 0$ならば円は正の向き、$\kappa < 0$ならば円は負の向きである。
+
+\newpage
+\subsection*{定理2.2. 曲率による曲線の特徴付け}
+\begin{itembox}[l]{定理2.2}
+    2曲線$\bm{p}(s), \bar{\bm{p}}(s)$とその曲率$\kappa(s), \bar{\kappa}(s)$について
+    \begin{equation}
+        \kappa = \bar{\kappa}
+        \quad \Longleftrightarrow \quad
+        \text{回転と平行移動で$\bm{p}, \bar{\bm{p}}$が重なる}
+    \end{equation}
+\end{itembox}
+
+\begin{proof}
+    「$\Leftarrow$」について
+
+    回転と平行移動で$\bm{p}, \bar{\bm{p}}$が重なると仮定する。
+    すなわち、ある回転行列$A$と定ベクトル$\bm{b}$が存在して
+    \begin{equation}
+        \bar{\bm{p}}(s) = A \bm{p}(s) + \bm{b}
+    \end{equation}
+    と表せると仮定する。
+
+    \newpage
+    前頁の仮定
+    \begin{equation}
+        \bar{\bm{p}}(s) = A \bm{p}(s) + \bm{b}
+    \end{equation}
+    より、
+    \begin{alignat}{1}
+        \bar{\bm{e}}_1 &= \bar{\bm{p}}' \\
+            &= A \bm{p}' \\
+            &= A \bm{e}_1 \\
+        \bar{\bm{e}}_2
+            &=
+                \left[
+                    \begin{array}{cc}
+                        0 & -1 \\
+                        1 & 0
+                    \end{array}
+                \right]
+                \bar{\bm{e}}_1 \\
+            &=
+                \left[
+                    \begin{array}{cc}
+                        0 & -1 \\
+                        1 & 0
+                    \end{array}
+                \right]
+                A \bar{e}_1 \\
+            &=
+                A \left[
+                    \begin{array}{cc}
+                        0 & -1 \\
+                        1 & 0
+                    \end{array}
+                \right]
+                \bar{e}_1 \\
+            &= A \bar{e}_2
+    \end{alignat}
+    である。
+
+    \newpage
+    前頁の結果
+    \begin{equation}
+        \bar{\bm{e}}_1 = A \bm{e}_1, \quad
+        \bar{\bm{e}}_2 = A \bm{e}_2
+    \end{equation}
+    より、
+    \begin{equation}
+        \bar{\bm{e}}_1' = A \bar{e}_1' = A (\kappa \bm{e}_2) = \kappa \bar{\bm{e}}_2
+    \end{equation}
+    である。
+    このことと曲率の定義式$\bar{\bm{e}}_1' = \bar{\kappa} \bar{\bm{e}}_2$とを比較すれば
+    $\kappa = \bar{\kappa}$を得る。
+
+    \newpage
+    「$\kappa = \bar{\kappa} \Rightarrow \text{回転と平行移動で$\bm{p}, \bar{\bm{p}}$が重なる}$」について
+
+    $\kappa = \bar{\kappa}$を仮定する。
+    まず適当な回転と平行移動で
+    \begin{equation}
+        \bm{p}(s_0) = \bar{\bm{p}}(s_0), \quad
+        \bm{e}_1(s_0) = \bar{\bm{e}}_1(s_0)
+    \end{equation}
+    となるようにしておく。
+    このとき$\forall s$に対して$\bm{p}(s) = \bar{\bm{p}}(s)$であることを示そう。
+    そのためには
+    \begin{equation}
+        \frac{d}{ds} (\bm{p} - \bar{\bm{p}}) = \bm{0}
+    \end{equation}
+    すなわち
+    \begin{equation}
+        \bm{e}_1 - \bar{\bm{e}}_1 = \bm{0}
+    \end{equation}
+    を示せばよい。
+
+    \newpage
+    各ベクトルの成分を
+    \begin{alignat}{1}
+              \bm{e}_1 &= (\xi_{11}, \xi_{12}) \\
+        \bar{\bm{e}}_1 &= (\bar{\xi}_{11}, \bar{\xi}_{12}) \\
+              \bm{e}_2 &= (\xi_{21}, \xi_{22}) \\
+        \bar{\bm{e}}_2 &= (\bar{\xi}_{21}, \bar{\xi}_{22})
+    \end{alignat}
+    とおく。さらに
+    \begin{alignat}{2}
+        \bm{f}_1 &= \left[
+            \begin{array}{c}
+                \xi_{11} \\
+                \xi_{21}
+            \end{array}
+        \right] \quad
+        &
+        \bm{f}_2 &= \left[
+            \begin{array}{c}
+                \xi_{12} \\
+                \xi_{22}
+            \end{array}
+        \right] \\
+        \bar{\bm{f}}_1 &= \left[
+            \begin{array}{c}
+                \bar{\xi}_{11} \\
+                \bar{\xi}_{21}
+            \end{array}
+        \right] \quad
+        &
+        \bar{\bm{f}}_2 &= \left[
+            \begin{array}{c}
+                \bar{\xi}_{12} \\
+                \bar{\xi}_{22}
+            \end{array}
+        \right]
+    \end{alignat}
+    とおく。
+    このとき、行列
+    \begin{equation}
+        X = \left[
+            \begin{array}{c}
+                \bm{e}_1 \\
+                \bm{e}_2
+            \end{array}
+        \right]
+        = [
+            \begin{array}{cc}
+                \bm{f}_1 & \bm{f}_2
+            \end{array}]
+    \end{equation}
+    は直交行列であるから、$\bm{f}_1, \bm{f}_2$は正規直交基底である（$\bar{\bm{f}}_1, \bar{\bm{f}}_2$も同様）。
+
+    \newpage
+    さて、今示したいことは
+    \begin{equation}
+        \bm{e}_1 - \bar{\bm{e}}_1 = \bm{0}
+    \end{equation}
+    であった。そのためには
+    \begin{equation}
+        |\bm{f}_1 - \bar{\bm{f}}_1|^2 = 0, \quad
+        |\bm{f}_2 - \bar{\bm{f}}_2|^2 = 0
+    \end{equation}
+    を示せばよい。
+
+    \newpage
+    まず$|\bm{f}_1 - \bar{\bm{f}}_1|^2 = 0$を示す。ここで
+    \begin{alignat}{1}
+        |\bm{f}_1 - \bar{\bm{f}}_1|^2
+            &= (\xi_{11} - \bar{\xi}_{11})^2 + (\xi_{21} - \bar{\xi}_{21})^2 \\
+            &= \xi_{11}^2 + \xi_{21}^2 + \bar{\xi}_{11}^2 + \bar{\xi}_{21}^2
+                - 2 (\xi_{11} \bar{\xi}_{11} + \xi_{21} \bar{\xi}_{21}) \\
+            &= 2 - 2 (\xi_{11} \bar{\xi}_{11} + \xi_{21} \bar{\xi}_{21})
+    \end{alignat}
+    なので
+    \begin{equation}
+        \xi_{11} \bar{\xi}_{11} + \xi_{21} \bar{\xi}_{21} = 1
+    \end{equation}
+    を示せばよいが、$s = s_0$のときは
+    \begin{alignat}{1}
+        \xi_{11}(s_0) \bar{\xi}_{11}(s_0) + \xi_{21}(s_0) \bar{\xi}_{21}(s_0)
+            &= \xi_{11}(s_0)^2 + \xi_{21}(s_0)^2 \\
+            &= |\bm{f}_1|^2 \\
+            &= 1
+    \end{alignat}
+    が成り立っているから、結局
+    \begin{equation}
+        \frac{d}{ds} (\xi_{11} \bar{\xi}_{11} + \xi_{21} \bar{\xi}_{21}) = 0
+    \end{equation}
+    を示せばよい。
+
+    \newpage
+    実際に$s$について微分してみると
+    \begin{alignat}{1}
+        \frac{d}{ds} (\xi_{11} \bar{\xi}_{11} + \xi_{21} \bar{\xi}_{21})
+            &= \xi_{11}' \bar{\xi}_{11} + \xi_{11} \bar{\xi}_{11}'
+                + \xi_{21}' \bar{\xi}_{21} + \xi_{21} \bar{\xi}_{21}' \\
+            &= \kappa \xi_{21} \bar{\xi}_{11} + \kappa \xi_{11} \bar{\xi}_{21}
+                - \kappa \xi_{11} \bar{\xi}_{21} - \kappa \xi_{21} \bar{\xi}_{11} \\
+            &= 0
+    \end{alignat}
+    なので、示したかった$|\bm{f}_1 - \bar{\bm{f}}_1|^2 = 0$がいえた。
+    同様にして$|\bm{f}_2 - \bar{\bm{f}}_2|^2 = 0$も示せる。
+
+    以上より
+    「$\kappa = \bar{\kappa} \Rightarrow \text{回転と平行移動で$\bm{p}, \bar{\bm{p}}$が重なる}$」がいえた。
+\end{proof}
+
+
+
+
+\section{一般のパラメータによる曲率の表式}
+弧長$s$によるパラメータ表示を具体的に求めることは一般には難しい。
+そこで、一般のパラメータ$t$による曲率の表式を考える。
+
+\newpage
+\subsection*{例2.2. 楕円の曲率}
+楕円のパラメータ表示
+\begin{equation}
+    x = a \cos t,\quad y = b \sin t \quad (a > b > 0)
+\end{equation}
+から曲率を求める。弧長は
+\begin{equation}
+    s = \int_0^t \sqrt{\dot{x}^2 + \dot{y}^2} dt
+\end{equation}
+ゆえに
+\begin{alignat}{1}
+    \dot{s} &= \sqrt{\dot{x}^2 + \dot{y}^2} \\
+        &= \sqrt{a^2 \sin^2 t + b^2 \cos^2 t}
+\end{alignat}
+よって
+\begin{alignat}{1}
+    \frac{dt}{ds} = \frac{1}{\sqrt{a^2 \sin^2 t + b^2 \cos^2 t}}
+\end{alignat}
+である。
+
+\newpage
+また
+\begin{alignat}{1}
+    \bm{e}_1 &= \bm{p}' \\
+        &= \dot{\bm{p}} \frac{dt}{ds} \\
+        &= (-a \sin t, b \cos t) \frac{dt}{ds}
+\end{alignat}
+ゆえに
+\begin{alignat}{1}
+    \bm{e}_2 &= (-b \cos t, -a \sin t) \frac{dt}{ds}
+\end{alignat}
+である。
+
+\end{document}
