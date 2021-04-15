@@ -65,7 +65,7 @@
 （パラメータ付）曲線と呼ぶ立場もある\cite{kaiseki1}:
 
 \begin{itembox}[l]{定義（パラメータ付曲線）\footnotemark[1]}
-    $\bm{R}$の有界閉区間$I=[a, b]$上で定義された$\bm{R}^2$値連続写像$\bm{p}(t)$を
+    $\bm{R}$の有界閉区間$I=[a, b]$上で定義された$\bm{R}^2$値連続関数$\bm{p}(t)$を
     パラメータ付曲線という。
 \end{itembox}
 
@@ -111,7 +111,6 @@
 \subsection*{留意}
 本書では「点集合としての曲線」「パラメータ付曲線」「パラメータ付曲線の同値類としての曲線」などを明確には区別していないため、
 曲線という語の意味は文脈によって判断するしかない。
-本スライドでも以後これらの概念を明確には区別せず用いる。
 
 
 
@@ -180,7 +179,7 @@ $\therefore$ $s(t)$は逆関数$t(s)$を持ち、$t(s)$も狭義単調増加な�
     \bm{e}_1(s) = \bm{p}'(s)
 \end{equation}
 と定義する。
-$\bm{e}_1(s_0)$は曲線$\bm{p}(s)$の点$\bm{p}(s_0)$における単位接ベクトルである。
+$\bm{e}_1(s_0)$は$\bm{p}(s)$で表される曲線の点$\bm{p}(s_0)$における単位接ベクトルである。
 
 \newpage
 \subsection*{単位法ベクトル$\bm{e}_2$}
@@ -199,7 +198,6 @@ $\bm{e}_1(s_0)$は曲線$\bm{p}(s)$の点$\bm{p}(s_0)$における単位接ベ�
     \right]
 \end{equation}
 である。
-$\bm{e}_2(s_0)$は曲線$\bm{p}(s)$の点$\bm{p}(s_0)$における単位法ベクトルである。
 
 \newpage
 \subsection*{曲率}
@@ -238,13 +236,6 @@ $\bm{e}_1, \bm{e}_2$の関係を整理すると
     \right]
 \end{equation}
 が成り立つ。この$\kappa(s)$を曲率(curvature)という。
-
-\newpage
-\subsection*{補足：シュミットの直交化}
-曲率$\kappa$が非負である場合を考える。
-ある点において$\bm{p}', \bm{p}''$が線型独立であるとき、
-これは2次元ユークリッド空間の基底であり、
-これにシュミットの直交化を施したものは$\bm{e}_1, \bm{e}_2$である。
 
 
 
@@ -377,13 +368,11 @@ $\bm{p}(s)$の点$s_0$における2次近似は
 
 \newpage
 \subsection*{Gaussの表示}
-$\bm{p}(s)$は1対1であるから、
-各点$\bm{p}(s_0)$に対してベクトル$\bm{e}_2(s_0)$が唯一つ定まり、
-さらに$\bm{e}_2(s_0)$を位置ベクトルとみたときに$\bm{e}_2(s_0)$が表す単位円上の点が
-唯一つ定まる。この単位円上の点を同じ記号で$\bm{e}_2(s_0)$と表すことにする。
-
-点$\bm{p}(s)$を点$\bm{e}_2(s)$に写す写像をGaussの表示(Gauss map; ガウス写像とも)と呼び、
-$g$で表す。
+「曲線$\bm{p}$の各点$\bm{p}(s)$に対して、原点からでる、$\bm{e}_2(s)$に平行なベクトルを対応させる。
+点$\bm{p}(s)$からでているベクトル$\bm{e}_2(s)$も、原点からでている平行なベクトルも同じであるから、
+同様に$\bm{e}_2(s)$と書くことにする。
+曲線$\bm{p}$から単位円への対応$\bm{p}(s)\rightarrow\bm{e}_2(s)$をGaussの頭文字をとり
+$g$と書くことにする。」
 
 \newpage
 点$\bm{p}$が$\bm{p}(s)$から$\bm{p}(s + \Delta s)$まで動くとき、
@@ -522,8 +511,8 @@ $\kappa > 0$ならば円は正の向き、$\kappa < 0$ならば円は負の向�
     各ベクトルの成分を
     \begin{alignat}{1}
               \bm{e}_1 &= (\xi_{11}, \xi_{12}) \\
-        \bar{\bm{e}}_1 &= (\bar{\xi}_{11}, \bar{\xi}_{12}) \\
               \bm{e}_2 &= (\xi_{21}, \xi_{22}) \\
+        \bar{\bm{e}}_1 &= (\bar{\xi}_{11}, \bar{\xi}_{12}) \\
         \bar{\bm{e}}_2 &= (\bar{\xi}_{21}, \bar{\xi}_{22})
     \end{alignat}
     とおく。さらに
@@ -660,18 +649,31 @@ $\kappa > 0$ならば円は正の向き、$\kappa < 0$ならば円は負の向�
         &&&= (-a \sin t, b \cos t) \frac{dt}{ds} \\
     &\therefore& \quad \bm{e}_2 &= (-b \cos t, -a \sin t) \frac{dt}{ds}
 \end{alignat}
-である。ここで
-\begin{equation}
-    \begin{cases}
-        \text{曲率の定義式から } &\bm{e}_1' = \kappa \bm{e}_2 = \kappa (-b \cos t, -a \sin t) \dfrac{dt}{ds} \\
-        \text{連鎖律から } &\bm{e}_1' = \dot{\bm{e}}_1 \dfrac{dt}{ds}
-    \end{cases}
-\end{equation}
-なので、これを$\kappa$について解いて
+である。
+
+\newpage
+前頁で
+\begin{alignat}{1}
+    \bm{e}_1 &= (-a \sin t, b \cos t) \frac{dt}{ds} \\
+    \bm{e}_2 &= (-b \cos t, -a \sin t) \frac{dt}{ds}
+\end{alignat}
+を得た。ここで
+\begin{alignat}{1}
+    \bm{e}_1' &= \dot{\bm{e}}_1 \frac{dt}{ds} \\
+        &= \left(
+            \frac{-ab^2 \cos t}{(a^2 \sin^2 t + b^2 \cos^2 t)^{3/2}},
+            \frac{-a^2b \sin t}{(a^2 \sin^2 t + b^2 \cos^2 t)^{3/2}}
+        \right) \frac{dt}{ds} \\
+        &= \frac{ab}{(a^2 \sin^2 t + b^2 \cos^2 t)^{3/2}}
+            (-b \cos t, -a \sin t) \frac{dt}{ds} \\
+        &= \frac{ab}{(a^2 \sin^2 t + b^2 \cos^2 t)^{3/2}}
+            \bm{e}_2
+\end{alignat}
+なので
 \begin{equation}
     \kappa = \frac{ab}{(a^2 \sin^2 t + b^2 \cos^2 t)^{3/2}}
 \end{equation}
-を得る。
+である。
 
 
 
